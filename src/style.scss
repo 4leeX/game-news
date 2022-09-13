@@ -1,0 +1,13 @@
+:root{
+  --primary-bkg: #202124;
+  --secondary-bkg: #2b2c2c;
+}
+
+*{
+  padding: 0;
+  margin: 0;
+}
+
+body{
+  background: var(--primary-bkg);
+}
