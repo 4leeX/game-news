@@ -8,9 +8,17 @@
           </div>
           <div class="gameInfo" >
             <h5>{{ g.name }}</h5>
-            <span :style="{'color':colorMeta, 'border':colorMeta + ' 1px solid'}">
-              {{getMetaCritic(g.metacritic)}} {{g.metacritic}}
-            </span>
+            <div class="gameInfoFirst">
+              <div class="metaContent">
+                <span :style="{'color':colorMeta, 'border':colorMeta + ' 1px solid'}">
+                  {{getMetaCritic(g.metacritic)}} {{g.metacritic}}
+                </span>
+                <span>{{g.esrb_rating.name}}</span>
+              </div>
+              <div class="ratingContent">
+                <star-rating :rating="g.rating"></star-rating>
+              </div>
+            </div>
           </div>
           <div class="gameInfoMedio" v-if="showCardMedio === i">
             <h5>{{ g.name }}</h5>
@@ -21,7 +29,10 @@
 </template>
 
 <script>
+import starRating from './star-rating.vue';
+
 export default {
+  components: { starRating },
   name: 'CardGame',
   data(){
     return{
@@ -78,15 +89,33 @@ export default {
     }
     .gameInfo{ 
       padding: 10px;
-
+    
       h5{
         font-size: 18px;
         color: #FFF;
       }
-      span{
-        padding: 2px 5px;
-        border-radius: 5px;
-        /* border: 1px solid red; */
+
+      .gameInfoFirst{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding-top: 10px;
+        align-items: center;
+
+        .metaContent{
+          span:first-child{
+            margin-right: 5px;
+          }
+          span{
+            padding: 2px 5px;
+            border-radius: 5px;
+            color: #FFF;
+            /* border: 1px solid red; */
+          }
+        }
+        .ratingContent{
+          
+        }
       }
     }
     .gameInfoMedio{
