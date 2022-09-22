@@ -21,7 +21,12 @@
             </div>
           </div>
           <div class="gameInfoMedio" v-if="showCardMedio === i">
-            <h5>{{ g.name }}</h5>
+            <div class="dateContent">
+              <p>Release date:</p><p>{{g.released}}</p>
+            </div>
+            <div class="dateContent">
+              <p>Genres:</p><p v-for="(gen, i) in g.genres" :key="i">{{gen.name}}</p>
+            </div>
           </div>
         </div>
     </div>
@@ -38,6 +43,7 @@ export default {
     return{
       showCardMedio: null,
       colorMeta: '',
+      newDate: '',
     }
   },
   props: {
@@ -48,6 +54,7 @@ export default {
   },
   mounted() {
     // this.game.
+    this.formatedReleaseDate();
   },
   methods: {
     getMetaCritic(value){
@@ -58,6 +65,12 @@ export default {
       }else{
         this.colorMeta = 'red';
       }
+    },
+    formatedReleaseDate(){
+      this.game.map(data => {
+        let formDate = new Date(data.released).toLocaleDateString();
+        data.released = formDate;
+      });
     }
   }
 }
@@ -127,6 +140,10 @@ export default {
       width: 100%;
       position: relative;
       position: fixed;
+
+      .dateContent{
+        padding: 10px;
+      }
     }
 
     &:hover{
