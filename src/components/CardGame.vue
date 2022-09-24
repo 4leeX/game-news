@@ -22,10 +22,13 @@
           </div>
           <div class="gameInfoMedio" v-if="showCardMedio === i">
             <div class="dateContent">
-              <p>Release date:</p><p>{{g.released}}</p>
+              <p>Release date:</p><p>{{formatedReleaseDate(g.released)}}</p>
             </div>
-            <div class="dateContent">
-              <p>Genres:</p><p v-for="(gen, i) in g.genres" :key="i">{{gen.name}}</p>
+            <div class="genresContent">
+              <p>Genres:</p><p>{{g.genres[0].name}}</p>
+            </div>
+            <div class="plataformContent">
+              <p>Plataforms:</p><p v-for="(gen, i) in g.parent_platforms" :key="i">{{gen.platform.name}}</p>
             </div>
           </div>
         </div>
@@ -35,6 +38,7 @@
 
 <script>
 import starRating from './star-rating.vue';
+import moment from "moment";
 
 export default {
   components: { starRating },
@@ -43,7 +47,6 @@ export default {
     return{
       showCardMedio: null,
       colorMeta: '',
-      newDate: '',
     }
   },
   props: {
@@ -52,10 +55,8 @@ export default {
         required: true
     }
   },
-  mounted() {
-    // this.game.
-    this.formatedReleaseDate();
-  },
+  created(){},
+  mounted() {},
   methods: {
     getMetaCritic(value){
       if(value >= 70){
@@ -66,11 +67,8 @@ export default {
         this.colorMeta = 'red';
       }
     },
-    formatedReleaseDate(){
-      this.game.map(data => {
-        let formDate = new Date(data.released).toLocaleDateString();
-        data.released = formDate;
-      });
+    formatedReleaseDate(data){
+      return moment(data, 'YYYY-MM-DD').format('DD/MM/YYYY')
     }
   }
 }
@@ -137,12 +135,17 @@ export default {
       border-radius: 0 0 10px 10px;
       z-index: 3;
       height: 200px;
-      width: 100%;
-      position: relative;
+      width: 300px;
       position: fixed;
+      padding: 10px;
 
-      .dateContent{
-        padding: 10px;
+      .genresContent, .dateContent, .plataformContent{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 6px 0 10px 0;
+        border-bottom: solid 1px var(--color-bkg);
+        color: #FFF;
       }
     }
 
