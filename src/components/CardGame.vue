@@ -28,7 +28,18 @@
               <p>Genres:</p><p>{{g.genres[0].name}}</p>
             </div>
             <div class="plataformContent">
-              <p>Plataforms:</p><p v-for="(gen, i) in g.parent_platforms" :key="i">{{gen.platform.name}}</p>
+              <p>Plataforms:</p>
+              <div class="plataformIcons">
+                <span v-for="(gen, i) in g.parent_platforms" :key="i">
+                  <icons-plataform :icons="gen.platform.name"></icons-plataform>
+                </span>
+              </div>
+            </div>
+            <div class="moreDetailsContent">
+              <div class="detailLink">
+                <p>Check All Details</p>
+                <i class="fa-solid fa-circle-arrow-right"></i>
+              </div>
             </div>
           </div>
         </div>
@@ -38,15 +49,17 @@
 
 <script>
 import starRating from './star-rating.vue';
+import iconsPlataform from './icon-plataform.vue';
 import moment from "moment";
 
 export default {
-  components: { starRating },
+  components: { starRating, iconsPlataform },
   name: 'CardGame',
   data(){
     return{
       showCardMedio: null,
       colorMeta: '',
+      icon: ''
     }
   },
   props: {
@@ -69,6 +82,9 @@ export default {
     },
     formatedReleaseDate(data){
       return moment(data, 'YYYY-MM-DD').format('DD/MM/YYYY')
+    },
+    iconsPlataform(value){
+      console.log(value);
     }
   }
 }
@@ -134,7 +150,7 @@ export default {
       background: var(--secondary-bkg);
       border-radius: 0 0 10px 10px;
       z-index: 3;
-      height: 200px;
+      height: 170px;
       width: 300px;
       position: fixed;
       padding: 10px;
@@ -142,10 +158,55 @@ export default {
       .genresContent, .dateContent, .plataformContent{
         display: flex;
         flex-direction: row;
+        flex-wrap: wrap;
         justify-content: space-between;
         padding: 6px 0 10px 0;
         border-bottom: solid 1px var(--color-bkg);
         color: #FFF;
+      }
+      .plataformContent{
+        .plataformIcons{
+          display: flex;
+          flex-direction: row;
+          span{
+            padding-left: 10px;
+            cursor: pointer;
+
+            &:hover{
+              color: rgb(167, 167, 167);
+              transform: scale(1.2);
+            }
+          }
+        }
+      }
+      .moreDetailsContent{
+        width: 100%;
+        height: 40px;
+        margin-top: 10px;
+        background: var(--color-bkg2);
+        border-radius: 10px;
+        box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 8px 0px;
+        .detailLink{
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          padding: 12px;
+          
+          p{
+            color: #FFF;
+            font-size: 12px;
+            transition: .3s;
+          }
+          i{
+            color: #FFF;
+            transition: .3s;
+          }
+          &:hover{
+            p,i{
+              color: var(--color-link);
+            }
+          }
+        }
       }
     }
 
