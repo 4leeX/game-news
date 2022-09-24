@@ -1,11 +1,14 @@
 <template>
-  <Home />
-  <!-- <GameDetails /> -->
+  <section>
+    <Navbar />
+    <!-- <Home /> -->
+    <router-view />
+  </section>
 </template>
 
 <script setup>
-  import Home from './components/Home.vue'
-  // import GameDetails from './pages/GameDetails.vue'
+  import Home from './components/Home.vue';
+  import Navbar from './components/Navbar.vue';
 </script>
 
 <style scoped>

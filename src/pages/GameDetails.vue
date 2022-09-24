@@ -5,11 +5,29 @@
 </template>
 
 <script>
-export default {
+import gameDetail from '../api/gameDetail';
 
+export default {
+  data(){
+    return{
+      datails: [],
+    }
+  },
+  props: ['slug'],
+  mounted() {
+    this.gameDetail();
+  },
+  methods:{
+    gameDetail(){
+      gameDetail.show(this.$route.params.slug)
+        .then(data => {
+          this.datails = data.data;
+        }); 
+    }
+  }
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
 
 </style>

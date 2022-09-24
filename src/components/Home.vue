@@ -1,5 +1,4 @@
 <template>
-  <Navbar />
   <section class="homeContainer">
     <h1>Home</h1>
     <CardGame :game="games" /> 
@@ -8,9 +7,8 @@
 
 <script>
 import gamesSearch from '../api/games';
-import gameDetail from '../api/gameDetail';
-import Navbar from './Navbar.vue';
 import CardGame from './CardGame.vue';
+// import gameDetail from '../api/gameDetail';
 
 export default {
   data(){
@@ -20,12 +18,11 @@ export default {
     }
   },
   components: {
-    Navbar,
     CardGame
   },
   mounted() {
     this.getGames();
-    this.gameDetail();
+    // this.gameDetail();
   },
   methods: {
     getGames(){
@@ -33,11 +30,11 @@ export default {
           this.games = data.data.results;
         });
     },
-    gameDetail(){
-      gameDetail.then(data => {
-        this.gameDatail = data.data;
-      })
-    }
+    // gameDetail(){
+    //   gameDetail.then(data => {
+    //     this.gameDatail = data.data;
+    //   })
+    // }
   }
 }
 </script>
