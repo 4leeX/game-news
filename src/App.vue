@@ -1,9 +1,11 @@
 <template>
   <Home />
+  <!-- <GameDetails /> -->
 </template>
 
 <script setup>
   import Home from './components/Home.vue'
+  // import GameDetails from './pages/GameDetails.vue'
 </script>
 
 <style scoped>

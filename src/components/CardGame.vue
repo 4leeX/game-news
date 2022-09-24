@@ -37,8 +37,10 @@
             </div>
             <div class="moreDetailsContent">
               <div class="detailLink">
-                <p>Check All Details</p>
-                <i class="fa-solid fa-circle-arrow-right"></i>
+                <router-link :to="{name:'details', params: {slug: g.slug}}">
+                  <p>Check All Details</p>
+                </router-link>
+                  <i class="fa-solid fa-circle-arrow-right"></i>
               </div>
             </div>
           </div>
@@ -82,9 +84,6 @@ export default {
     },
     formatedReleaseDate(data){
       return moment(data, 'YYYY-MM-DD').format('DD/MM/YYYY')
-    },
-    iconsPlataform(value){
-      console.log(value);
     }
   }
 }
@@ -191,7 +190,9 @@ export default {
           flex-direction: row;
           justify-content: space-between;
           padding: 12px;
-          
+          a{
+            text-decoration: none;
+          }
           p{
             color: #FFF;
             font-size: 12px;

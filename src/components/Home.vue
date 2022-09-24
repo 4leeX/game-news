@@ -8,13 +8,15 @@
 
 <script>
 import gamesSearch from '../api/games';
+import gameDetail from '../api/gameDetail';
 import Navbar from './Navbar.vue';
 import CardGame from './CardGame.vue';
 
 export default {
   data(){
     return{
-      games: []
+      games: [],
+      gameDatail: []
     }
   },
   components: {
@@ -23,12 +25,18 @@ export default {
   },
   mounted() {
     this.getGames();
+    this.gameDetail();
   },
   methods: {
     getGames(){
         gamesSearch.then(data => {
           this.games = data.data.results;
         });
+    },
+    gameDetail(){
+      gameDetail.then(data => {
+        this.gameDatail = data.data;
+      })
     }
   }
 }
