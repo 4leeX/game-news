@@ -25,8 +25,21 @@
               <p>Release date:</p><p>{{formatedReleaseDate(g.released)}}</p>
             </div>
             <div class="genresContent">
-              <p>Genres:</p><p>{{g.genres[0].name}}</p>
+              <div class="moreGenres" v-if="showMoreGenres">
+                <div v-for="(gen, i) in g.genres" :key="i">
+                    <div class="textGen">
+                      <p>{{gen.name}}</p>
+                    </div>
+                </div>
+              </div>
+
+              <p>Genres:</p>
+              <div class="plusGenres" @mouseenter="funcShowMoreGenres" @mouseleave="closeMoreGenres">
+                <p>{{g.genres[0].name}}</p>
+                <i class="fa-solid fa-plus"></i>
+              </div>
             </div>
+            
             <div class="plataformContent">
               <p>Plataforms:</p>
               <div class="plataformIcons">
@@ -61,7 +74,8 @@ export default {
     return{
       showCardMedio: null,
       colorMeta: '',
-      icon: ''
+      showMoreGenres: false,
+
     }
   },
   props: {
@@ -84,6 +98,12 @@ export default {
     },
     formatedReleaseDate(data){
       return moment(data, 'YYYY-MM-DD').format('DD/MM/YYYY')
+    },
+    funcShowMoreGenres(){
+      return this.showMoreGenres = true;
+    },
+    closeMoreGenres(){
+      return this.showMoreGenres = false;
     }
   }
 }
@@ -162,6 +182,38 @@ export default {
         padding: 6px 0 10px 0;
         border-bottom: solid 1px var(--color-bkg);
         color: #FFF;
+      }
+      .genresContent{
+        .plusGenres{
+          display: flex;
+          position: relative;
+          cursor: pointer;
+          p{
+            padding-right: 5px;
+          }
+          &:hover{
+            color: var(--color-link);
+            transform: scale(1.1);
+          }
+        }
+        .moreGenres{
+          z-index: 10;
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
+          position: fixed;
+          background: var(--color-bkg);
+          border-radius: 10px;
+          padding: 10px;
+          max-width: 70%;
+          box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+
+          .textGen{
+            p{
+              padding: 5px;
+            }
+          }
+        }
       }
       .plataformContent{
         .plataformIcons{
