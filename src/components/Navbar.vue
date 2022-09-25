@@ -16,18 +16,14 @@
 
   <section v-if="openSearch">
     <div class="listSearchContainer">
-        <!-- <div v-for="(g, i) in gameSearch" :key="i">
+        <div v-for="(g, i) in gameSearch" :key="i">
+          <router-link :to="{name:'details', params: {slug: g.slug}}">
             <div class="cardGame">
               <img :src="g.background_image" alt="image">
               <p>{{g.name}}</p>
             </div>
-        </div> -->
-        <!-- <div> -->
-            <div class="cardGame">
-              <img :src="gameSearch.background_image" alt="image">
-              <p>{{gameSearch.name}}</p>
-            </div>
-        <!-- </div> -->
+          </router-link>
+        </div>
     </div>
   </section>
   
@@ -46,16 +42,15 @@ export default {
     },
     methods: {
       loadSearch(){
-        // console.log(this.search);
         gameSearch.show(this.search).then(data => {
-          this.gameSearch = data.data;
+          this.gameSearch = data.data.results;
           this.openSearch=true;
           
         }).finally(() => {
           if((this.search).length == 0){
             this.openSearch=false;
           }
-        })
+        });
       }
     }
 }
@@ -122,16 +117,20 @@ section{
   .listSearchContainer{
     margin-top: 10px;
     padding: 10px;
+    padding-bottom: 50px;
     z-index: 99;
     border-radius: 10px;
     background: var(--bkg-search);
-    min-height: 50px;
+    max-height: 100%;
     width: 20%;
-    max-height: 300px;
     position: fixed;
     color: #FFF;
     box-shadow: rgba(156, 156, 156, 0.61) 0px 5px 15px 0px;
 
+    a{
+      color: #FFF;
+      text-decoration: none;
+    }
     .cardGame{
       display: flex;
       flex-direction: row;
@@ -139,10 +138,9 @@ section{
       padding-bottom: 10px;
       border-bottom: 1px solid var(--color-bkg);
       transition: .2s;
-
       img{
-        max-height: 80px;
-        max-width: 70px;
+        height: 50px;
+        width: 50px;
         border-radius: 10px;
         margin-right: 10px;
       }
