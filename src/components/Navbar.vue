@@ -1,5 +1,5 @@
 <template>
-  <header class="principalContainer">
+  <header class="principalContainer" :class="scrolled ? 'rounded-nav' : ''">
     <nav class="navContainer">
         <!-- <a href="#">Loja</a>
         <a href="#">Comunidade</a>
@@ -38,7 +38,15 @@ export default {
         search: null,
         gameSearch: [],
         openSearch: false,
+        scrolled: false
       }
+    },
+    components: {},
+    created () {
+      window.addEventListener('scroll', this.handleScroll);
+    },
+    destroyed () {
+      window.removeEventListener('scroll', this.handleScroll);
     },
     methods: {
       loadSearch(){
@@ -47,10 +55,13 @@ export default {
           this.openSearch=true;
           
         }).finally(() => {
-          if((this.search).length == 0){
+          if((this.search).length == 0 || (this.search).length==null){
             this.openSearch=false;
           }
         });
+      },
+      handleScroll () {
+        this.scrolled = window.scrollY > 0;
       }
     }
 }
@@ -58,10 +69,14 @@ export default {
 
 <style lang="scss" scoped>
 .principalContainer{
-    background: rgb(88, 88, 88);
-    padding: 0 300px;
-    max-width: 100%;
+    background: rgba(88,88,88,.6);
+    align-items: center;
+    position: fixed;
+    z-index: 10;
+    width: 100%;
     height: 80px;
+    transition: .6s;
+    top: 0;
 
     .navContainer{
         align-items: center;
@@ -107,12 +122,17 @@ export default {
         }
       }
     }
-
+}
+.rounded-nav{
+  border-radius: 50px;
+  margin-top: 3px;
+  margin-left: 18px;
+  width: 98%;
 }
 
 section{
   margin: 0 auto;
-  width: 20%;
+  width: 31%;
   
   .listSearchContainer{
     margin-top: 10px;
@@ -122,7 +142,8 @@ section{
     border-radius: 10px;
     background: var(--bkg-search);
     max-height: 100%;
-    width: 20%;
+    width: 30%;
+    margin-top: 55px;
     position: fixed;
     color: #FFF;
     box-shadow: rgba(156, 156, 156, 0.61) 0px 5px 15px 0px;

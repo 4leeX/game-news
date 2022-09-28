@@ -1,6 +1,6 @@
 <template>
   <section>
-    <div class="coteiner">
+    <div class="conteiner">
         <div class="cardContainer" v-for="(g, i) in game" :key="i" 
           @mouseenter="showCardMedio = i" @mouseleave="showCardMedio = id">
           <div class="imgConteiner">
@@ -110,10 +110,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.coteiner{
+.conteiner{
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  padding-top: 80px;
   justify-content: center;
   align-items: center;
 

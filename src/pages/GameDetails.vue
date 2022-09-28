@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="container">
     <h1>ALOOOOOOOOO</h1>
   </section>
 </template>
@@ -29,5 +29,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.container{
+  margin: 0 200px;
+  margin-top: 90px;
+}
 </style>
