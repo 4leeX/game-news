@@ -14,4 +14,6 @@
 
 body{
   background: var(--primary-bkg);
+  max-width: 100%;
+  overflow-x: hidden;
 }

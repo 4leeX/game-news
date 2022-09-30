@@ -18,7 +18,7 @@
     <div class="listSearchContainer">
         <div v-for="(g, i) in gameSearch" :key="i">
           <router-link :to="{name:'details', params: {slug: g.slug}}">
-            <div class="cardGame">
+            <div class="cardGame" @click="reloadPage">
               <img :src="g.background_image" alt="image">
               <p>{{g.name}}</p>
             </div>
@@ -62,6 +62,12 @@ export default {
       },
       handleScroll () {
         this.scrolled = window.scrollY > 0;
+      },
+      reloadPage(){
+        setTimeout(() => {
+          location.reload();
+        }, 500);
+        this.openSearch=false;
       }
     }
 }

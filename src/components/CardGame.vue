@@ -212,6 +212,7 @@ export default {
           .textGen{
             p{
               padding: 5px;
+              text-decoration: underline;
             }
           }
         }
