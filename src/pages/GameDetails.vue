@@ -7,7 +7,12 @@
         <p>{{ newDesc }}</p>
       </div>
       <div class="infoContentRight">
-        
+        <div class="imagesContainer">
+          <div class="imgContent">
+            <img v-for="(img, i) in screenShots.slice(0, 4)" :key="i"
+              :src="img.image" :alt="`${datails.name} image`">
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -15,10 +20,12 @@
 
 <script>
 import gameDetail from '../api/gameDetail';
+import gameImages from '../api/imageGame';
 
 export default {
   data(){
     return{
+      screenShots: [],
       datails: [],
       newDesc: '',
     }
@@ -26,6 +33,10 @@ export default {
   props: ['slug'],
   mounted() {
     this.getGameDetail();
+    setTimeout(() => {
+
+      this.getScreenShots();
+    }, 2000)
 
     setTimeout(() => {
       this.cleanTags();
@@ -37,6 +48,12 @@ export default {
         .then(data => {
           this.datails = data.data;
         }); 
+    },
+    getScreenShots(){
+      gameImages.show(this.$route.params.slug)
+        .then(data => {
+          this.screenShots = data.data.results;
+      });
     },
     cleanTags(){
       const htmlRegexG = /<(?:"[^"]*"['"]*|'[^']*'['"]*|[^'">])+>/g;
@@ -85,9 +102,24 @@ export default {
       }
     }
     .infoContentRight{
+      position: relative;
+      color: #FFF;
       width: 50%;
       height: 100%;
       background: linear-gradient(to left, var(--primary-bkg) , #202124ab);
+
+      .imagesContainer{
+
+        .imgContent{
+
+          img{
+            padding: 5px;
+            border-radius: 10px;
+            width: 200px;
+            height: 100px;
+          }
+        }
+      }
     }
   }
 }
