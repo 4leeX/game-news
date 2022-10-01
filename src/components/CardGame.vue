@@ -7,7 +7,9 @@
             <img :src="g.background_image" :alt="g.name">
           </div>
           <div class="gameInfo" >
-            <h5>{{ g.name }}</h5>
+            <router-link :to="{name:'details', params: {slug: g.slug}}">
+              <h5>{{ g.name }}</h5>
+            </router-link>
             <div class="gameInfoFirst">
               <div class="metaContent">
                 <span :style="{'color':colorMeta, 'border':colorMeta + ' 1px solid'}">
@@ -21,6 +23,7 @@
             </div>
           </div>
           <div class="gameInfoMedio" v-if="showCardMedio === i">
+          <!-- <div class="gameInfoMedio"> -->
             <div class="dateContent">
               <p>Release date:</p><p>{{formatedReleaseDate(g.released)}}</p>
             </div>
@@ -170,8 +173,8 @@ export default {
       background: var(--secondary-bkg);
       border-radius: 0 0 10px 10px;
       z-index: 3;
-      height: 170px;
-      width: 300px;
+      height: 244px;
+      width: 320px;
       position: fixed;
       padding: 10px;
 

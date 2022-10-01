@@ -5,6 +5,7 @@
   --color-bkg: #494949;
   --color-link: #bebebe;
   --bkg-search: #1c1c1d;
+  --bkg-transp: #1c1c1d9d;
 }
 
 *{
@@ -16,4 +17,7 @@ body{
   background: var(--primary-bkg);
   max-width: 100%;
   overflow-x: hidden;
+}
+section{
+  background: var(--primary-bkg);
 }

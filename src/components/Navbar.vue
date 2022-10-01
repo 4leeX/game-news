@@ -118,7 +118,7 @@ export default {
           button{
             border-radius: 0 50px 50px 0;
             border: none;
-            padding: 10px;
+            padding: 8px;
             /* padding-right: 10px; */
 
             i{

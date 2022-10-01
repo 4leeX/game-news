@@ -39,9 +39,12 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+  section{
+    background: var(--primary-bkg);
+  }
   .homeContainer{
     margin: 0 200px;
-    margin-top: 20px;
+    /* margin-top: 20px; */
   }
 </style>
