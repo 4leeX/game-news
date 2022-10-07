@@ -1,10 +1,11 @@
 <template>
   <header class="principalContainer" :class="scrolled ? 'rounded-nav' : ''">
     <nav class="navContainer">
-        <!-- <a href="#">Loja</a>
-        <a href="#">Comunidade</a>
-        <a href="#">Sobre</a>
-        <a href="#">Suporte</a> -->
+        <div class="back-button">
+          <router-link to="/">
+            <button class="back-button"><i class="fa-solid fa-chevron-left"></i></button>
+          </router-link>
+        </div>
         <div class="searchContainer">
           <div class="searchContent">
             <input type="text" v-model="search" @keyup="loadSearch()" placeholder="Search...">
@@ -89,15 +90,30 @@ export default {
         padding: 30px 0;
         margin: 0 35%;
         widows: 100%;
+        display: flex;
+        flex-direction: row;
 
+      .back-button{
         a{
-            color: #FFF;
-            margin-right: 25px;
-            text-decoration: none;
+          margin-right: 6px;
+            button{
+              padding: 5px 10px;
+              border-radius: 10px;
+              margin-left: auto;
+              margin-right: auto;
+              border: none;
+            }
         }
+      }
+
+      a{
+          color: #FFF;
+          margin-right: 25px;
+          text-decoration: none;
+      }
 
       .searchContainer{
-        /* width: 100%; */
+        width: 100%;
         .searchContent{
           display: flex;
           input{
