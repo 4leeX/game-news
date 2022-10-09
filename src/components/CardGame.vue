@@ -139,10 +139,19 @@ export default {
     }
     .gameInfo{ 
       padding: 10px;
-    
-      h5{
-        font-size: 18px;
-        color: #FFF;
+
+      a{
+        text-decoration: none;
+
+        h5{
+          font-size: 18px;
+          color: #FFF;
+          transition: .6s;
+          &:hover{
+            font-style: italic;
+            color: var(--color-link);
+          }
+        }
       }
 
       .gameInfoFirst{
