@@ -169,7 +169,6 @@ export default {
             padding: 2px 5px;
             border-radius: 5px;
             color: #FFF;
-            /* border: 1px solid red; */
           }
         }
         .ratingContent{
@@ -182,11 +181,13 @@ export default {
       background: var(--secondary-bkg);
       border-radius: 0 0 10px 10px;
       z-index: 3;
-      height: 244px;
+      height: 200px;
       width: 320px;
       position: fixed;
       padding: 10px;
-
+      p{
+        margin: 0;
+      }
       .genresContent, .dateContent, .plataformContent{
         display: flex;
         flex-direction: row;
@@ -236,6 +237,9 @@ export default {
           span{
             padding-left: 10px;
             cursor: pointer;
+            section{
+              background: var(--secondary-bkg);
+            }
 
             &:hover{
               color: rgb(167, 167, 167);

@@ -165,7 +165,7 @@ section{
     background: var(--bkg-search);
     max-height: 100%;
     width: 30%;
-    margin-top: 55px;
+    margin-top: 77px;
     position: fixed;
     color: #FFF;
     box-shadow: rgba(156, 156, 156, 0.61) 0px 5px 15px 0px;

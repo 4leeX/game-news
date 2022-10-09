@@ -8,7 +8,7 @@
       </div>
       <div class="infoContentRight">
         <div class="imagesContainer">
-          <div class="imgContent" @click="handleOpenModal('#modalTransferenciaPedido')">
+          <div class="imgContent" @click="handleOpenModal('#modalTransferenciaPedido')" v-if="screenShots!=0">
             <img v-for="(img, i) in screenShots.slice(0, 4)" :key="i"
               :src="img.image" :alt="`${datails.name} image`">
           </div>
@@ -18,13 +18,13 @@
                 <div>
                   <p>Genre</p>
                   <span v-for="(g,i) in info.genres" :key="i">
-                    {{g.name+" "}}, 
+                    {{g.name+" " || ""}}, 
                   </span>
                 </div>
                 <div>
                   <p>Tags</p>
                   <span v-for="(t,i) in info.tags.slice(0, 7)" :key="i">
-                    {{t.name+" "}}, 
+                    {{t.name+" " || ""}}, 
                   </span>
                 </div>
               </div>
@@ -32,16 +32,16 @@
                 <div>
                   <p>Plataforms</p>
                   <span v-for="(p,i) in info.platforms" :key="i">
-                    {{p.platform.name+" "}}, 
+                    {{p.platform.name+" " || ""}}, 
                   </span>
                 </div>
                 <div>
                   <p>Release date</p>
                   <small>
-                    {{formatedReleaseDate(datails.released)}} 
+                    {{formatedReleaseDate(datails.released) || ""}} 
                   </small>
                 </div>
-                <div>
+                <div v-if="info.age">
                   <p>Age rating</p>
                   <small>
                     {{info.age['name']}}
@@ -50,19 +50,28 @@
               </div>
             </div>
           </div>
+
+          <div class="requirementsContent" v-if="$store.state.modal.requirement">
+            <div class="requirement" @click="handleOpenModal('#modalRequirement')">
+              <h5>System requirements</h5>
+              <i class="fa-solid fa-gears"></i>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
   <modal :image="screenShots" />
+  <modal-requirement :req="info.platforms" />
 </template>
 
 <script>
 import gameDetail from '../api/gameDetail';
 import gameImages from '../api/imageGame';
-import gameTrailer from '../api/gameTrailer';
+// import gameTrailer from '../api/gameTrailer';
 import modal from '../components/modal.vue';
+import modalRequirement from '../components/modalRequirement.vue';
 import moment from "moment";
 
 export default {
@@ -82,14 +91,13 @@ export default {
     }
   },
   components: {
-    modal
+    modal,
+    modalRequirement
   },
   props: ['slug'],
   mounted() {
     this.getGameDetail();
-    // this.getGameTrailer();
     setTimeout(() => {
-
       this.getScreenShots();
     }, 2000)
 
@@ -123,18 +131,9 @@ export default {
           this.screenShots = data.data.results;
       });
     },
-    getInfoData(){
-
-    },
     formatedReleaseDate(data){
       return moment(data, 'YYYY-MM-DD').format('DD/MM/YYYY')
     },
-    // getGameTrailer(){
-    //   gameTrailer.show(this.$route.params.slug)
-    //     .then(data => {
-    //       this.gameTrailer = data.data.results;
-    //   });
-    // },
     cleanTags(){
       const htmlRegexG = /<(?:"[^"]*"['"]*|'[^']*'['"]*|[^'">])+>/g;
       return this.newDesc = JSON.parse(JSON.stringify(this.datails.description)).replace(htmlRegexG, '');
@@ -244,6 +243,37 @@ export default {
               span{ 
                 text-decoration: underline;
               }
+            }
+          }
+        }
+      }
+
+      .requirementsContent{
+        float: right;
+        width: 100%;
+                
+        .requirement{
+          color: #FFF;
+          padding: 20px;
+          border-radius: 10px;
+          background: var(--bkg-transp);
+          margin-top: 14%;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          cursor: pointer;
+
+          h5{
+            margin-right: 10px;
+            transition: .6s;
+          }
+          i{
+            font-size: 1.2rem;
+            transition: .6s;
+          }
+          &:hover{
+            h5,i{
+              color: var(--color-link);
             }
           }
         }
