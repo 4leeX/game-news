@@ -287,4 +287,10 @@ export default {
     }
   }
 }
+
+@media (max-width: 992px) {
+  .gameInfoMedio{
+    display: none;
+  }
+}
 </style>

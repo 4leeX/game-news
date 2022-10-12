@@ -196,4 +196,26 @@ section{
     }
   }
 }
+
+@media (max-width: 992px) {
+   .principalContainer{
+      margin-left: 0;
+
+     .navContainer{
+      margin: 0;
+      padding: 20px 20px 0 20px;
+      width: 100%;
+    }
+   }
+
+   section{
+    width: 70%;
+    
+    .listSearchContainer{
+      width: 70%;
+
+    }
+
+   }
+}
 </style>

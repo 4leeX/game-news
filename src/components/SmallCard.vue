@@ -1,6 +1,6 @@
 <template>
   <div class="cardContainer" v-for="(s,i) in series" :key="i">
-    <div class="cardContent">
+    <div class="cardContent">   
         <div class="imgConteiner">
             <router-link :to="{name:'details', params: {slug: s.slug}}">
                 <img :src="s.background_image" alt="" @click="reloadPage">
@@ -52,9 +52,7 @@ export default {
     transition: .6s;
 
     .cardContent{
-        
         .imgConteiner{
-            
             img{
                 border-radius: 10px 10px 0px 0px;
                 width: 250px;

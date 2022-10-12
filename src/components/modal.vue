@@ -104,4 +104,14 @@ i{
         transform: scale(0.8);
     }
 }
+
+@media (max-width: 992px) {
+    .secondary-img{
+        width: 60px;
+        height: 50px;
+    }
+    i{
+        display: none;
+    }
+}
 </style>

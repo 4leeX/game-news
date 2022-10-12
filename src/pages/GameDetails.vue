@@ -14,6 +14,8 @@
             <span>{{r.count}} votes</span> -->
           <!-- </div> -->
         </div>
+        
+      <div class="gradientBottomRight"></div>
       </div>
       <div class="infoContentRight">
         <div class="imagesContainer">
@@ -67,8 +69,8 @@
             </div>
           </div>
         </div>
+        <div class="gradientBottomLeft"></div>
       </div>
-      <!-- <div class="gradientBottom"></div> -->
     </div>
 
     <div class="bottomConteiner">
@@ -86,7 +88,6 @@
 import gameDetail from '../api/gameDetail';
 import gameImages from '../api/imageGame';
 import gameSeries from '../api/gameSeries';
-// import gameTrailer from '../api/gameTrailer';
 import modal from '../components/modal.vue';
 import smallCard from '../components/SmallCard.vue';
 import modalRequirement from '../components/modalRequirement.vue';
@@ -181,7 +182,7 @@ export default {
   padding-top: 90px;
 
   .imageBackgroundConteiner{
-    height: 80vh;
+    height: 100vh;
     background-position: 50%;
     background-repeat: no-repeat;
     background-size: cover;
@@ -329,11 +330,12 @@ export default {
       }
     }
 
-    .gradientBottom{
-      width: 80%;
+    .gradientBottomRight, .gradientBottomLeft{
+      width: 100%;
       height: 20%;
       position: absolute;
       bottom: 80vh;
+      bottom: 0;
       background: linear-gradient(to top, var(--primary-bkg) , #20212400);
     }
   }
@@ -347,6 +349,48 @@ export default {
       display: flex;
       flex-direction: row;
       justify-content: center;
+    }
+  }
+}
+
+@media (max-width: 992px) {
+  .container{
+
+    .imageBackgroundConteiner{
+      flex-direction: column;
+    
+      .gradientTop{
+        width: 100%;
+      }
+
+      .infoContentLeft{
+        width: 100%;
+
+        .gradientBottomRight{
+          display: none;
+        }
+      }
+      .infoContentRight{
+        width: 100%;
+
+        .imagesContainer{
+          max-width: 100%;
+          .imgContent{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+
+            img{
+              width: 150px;
+              height: 100px;
+            }
+          }
+        }
+      }
+    }
+
+    .bottomConteiner{
+      display: none;
     }
   }
 }
