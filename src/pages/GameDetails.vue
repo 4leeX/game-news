@@ -5,6 +5,15 @@
       <div class="infoContentLeft">
         <h2>{{ datails.name }}</h2>
         <p>{{ newDesc }}</p>
+
+        <div class="ratingContainer">
+          <span>Rating Graphic</span>
+          <!-- <div class="ratingContent" v-for="(r, i) in datails.ratings" :key="i"> -->
+            <!-- <p>{{setRatingCount(r)}}</p> -->
+            <!-- <span>{{rating[i]}}</span>
+            <span>{{r.count}} votes</span> -->
+          <!-- </div> -->
+        </div>
       </div>
       <div class="infoContentRight">
         <div class="imagesContainer">
@@ -59,6 +68,13 @@
           </div>
         </div>
       </div>
+      <!-- <div class="gradientBottom"></div> -->
+    </div>
+
+    <div class="bottomConteiner">
+      <div class="bottomContent">
+        <small-card :series="gameSeries"/>
+      </div>
     </div>
   </section>
 
@@ -69,9 +85,13 @@
 <script>
 import gameDetail from '../api/gameDetail';
 import gameImages from '../api/imageGame';
+import gameSeries from '../api/gameSeries';
 // import gameTrailer from '../api/gameTrailer';
 import modal from '../components/modal.vue';
+import smallCard from '../components/SmallCard.vue';
 import modalRequirement from '../components/modalRequirement.vue';
+// import rating from "../components/chart/rating";
+
 import moment from "moment";
 
 export default {
@@ -79,6 +99,7 @@ export default {
     return{
       screenShots: [],
       gameTrailer: [],
+      gameSeries: [],
       datails: [],
       newDesc: '',
       info: {
@@ -86,13 +107,15 @@ export default {
         genres: [],
         tags: [],
         age: {}
-      }
-
+      },
+      rating: ['Excelente', 'Muito Bom','Bom','Ruim'],
     }
   },
   components: {
     modal,
-    modalRequirement
+    // rating,
+    modalRequirement,
+    smallCard
   },
   props: ['slug'],
   mounted() {
@@ -103,6 +126,7 @@ export default {
 
     setTimeout(() => {
       this.cleanTags();
+      this.getGamesSeries();
     }, 1600);
   },
   methods:{
@@ -120,10 +144,17 @@ export default {
         })
         .catch(err => {
           console.log(err);
+          this.$store.commit("setError", true);
         })
         .finally(() => {
           console.log(':)');
         }); 
+    },
+    getGamesSeries(){
+      gameSeries.show(this.$route.params.slug)
+        .then(data => {
+          this.gameSeries = data.data.results;
+        })
     },
     getScreenShots(){
       gameImages.show(this.$route.params.slug)
@@ -138,6 +169,9 @@ export default {
       const htmlRegexG = /<(?:"[^"]*"['"]*|'[^']*'['"]*|[^'">])+>/g;
       return this.newDesc = JSON.parse(JSON.stringify(this.datails.description)).replace(htmlRegexG, '');
     },
+    setRatingCount(value){
+      
+    }
   }
 }
 </script>
@@ -147,7 +181,7 @@ export default {
   padding-top: 90px;
 
   .imageBackgroundConteiner{
-    height: 100vh;
+    height: 80vh;
     background-position: 50%;
     background-repeat: no-repeat;
     background-size: cover;
@@ -181,6 +215,21 @@ export default {
         max-height: 500px;
         overflow:auto;
         overflow-x: hidden;
+      }
+
+      .ratingContainer{
+        padding: 20px;
+        color: #FFF;
+        width: 100%;
+        text-align: left;
+        border-radius: 10px;
+        margin-top: 60px;
+        background: var(--bkg-transp);
+        
+        .ratingContent{
+          display: flex;
+          justify-content: space-between;
+        }
       }
     }
     .infoContentRight{
@@ -278,6 +327,26 @@ export default {
           }
         }
       }
+    }
+
+    .gradientBottom{
+      width: 80%;
+      height: 20%;
+      position: absolute;
+      bottom: 80vh;
+      background: linear-gradient(to top, var(--primary-bkg) , #20212400);
+    }
+  }
+
+  .bottomConteiner{
+    width: 100%;
+    color: #FFF;
+    /* background: red; */
+    .bottomContent{
+      flex-wrap: wrap;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
     }
   }
 }

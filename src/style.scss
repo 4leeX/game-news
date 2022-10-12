@@ -30,6 +30,9 @@ body{
   max-width: 100%;
   overflow-x: hidden;
 }
+html{
+  background: var(--primary-bkg);  
+}
 section{
   background: var(--primary-bkg);
 }
