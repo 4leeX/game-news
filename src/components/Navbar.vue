@@ -12,6 +12,11 @@
             <button><i class="fa-solid fa-magnifying-glass"></i></button>
           </div>
         </div>
+        <div class="filter-button">
+          <button class="back-button" @click="clickButton" :class="click ? 'clicked-button' : ''">
+            <i class="fa-solid fa-list"></i>
+          </button>
+        </div>
     </nav>
   </header>
 
@@ -27,11 +32,16 @@
         </div>
     </div>
   </section>
+
+  <transition name="fade">
+    <filtro-genero v-if="$store.state.modal.filter" />
+  </transition>
   
 </template>
 
 <script>
 import gameSearch from '../api/gameSearch';
+import filtroGenero from '../components/FiltroGeneros.vue';
 
 export default {
     data(){
@@ -39,10 +49,11 @@ export default {
         search: null,
         gameSearch: [],
         openSearch: false,
-        scrolled: false
+        scrolled: false,
+        click: false
       }
     },
-    components: {},
+    components: {filtroGenero},
     created () {
       window.addEventListener('scroll', this.handleScroll);
     },
@@ -52,6 +63,7 @@ export default {
     methods: {
       loadSearch(){
         gameSearch.show(this.search).then(data => {
+          this.$store.commit("toggleModalFilter", false);
           this.gameSearch = data.data.results;
           this.openSearch=true;
           
@@ -69,6 +81,11 @@ export default {
           location.reload();
         }, 500);
         this.openSearch=false;
+      },
+      clickButton(){
+        this.click=!this.click;
+        if(this.click) this.$store.commit("toggleModalFilter", true);
+        if(!this.click) this.$store.commit("toggleModalFilter", false);
       }
     }
 }
@@ -104,6 +121,38 @@ export default {
               border: none;
             }
         }
+      }
+
+      .filter-button{
+        margin-left: 6px;
+        button{
+          padding: 5px 10px;
+          border-radius: 20px;
+          margin-left: auto;
+          margin-right: auto;
+          border: none;
+
+          box-shadow: var(--color-link) 4px 4px 0 0;
+          display: inline-block;
+          font-weight: 600;
+          font-size: 18px;
+          user-select: none;
+          -webkit-user-select: none;
+          touch-action: manipulation;
+          transition: .1s;
+
+          &:hover {
+            background-color: #fff;
+          }
+
+          &:active {
+            box-shadow: var(--color-link) 2px 2px 0 0;
+            transform: translate(2px, 2px);
+          }
+        }
+      }
+      .clicked-button{
+        box-shadow: var(--color-bkg) 0 0 0 0 !important;
       }
 
       a{
@@ -195,6 +244,13 @@ section{
       }
     }
   }
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to{
+  opacity: 0;
 }
 
 @media (max-width: 992px) {

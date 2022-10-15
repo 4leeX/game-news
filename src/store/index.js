@@ -5,13 +5,17 @@ export default createStore({
     state: {
         modal: {
             requirement: false,
+            filter: false
         },
         error: false,
-        loading: false
+        loading: true
     },
     mutations: {
         toggleModalRequeriment(state, value){
             state.modal.requirement = value;
+        },
+        toggleModalFilter(state, value){
+            state.modal.filter = value;
         },
         setError(state, value){
             state.error = value;

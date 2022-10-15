@@ -8,7 +8,8 @@
                 <div class="modal-body">                     
                     <div class="jumbotron jumbotron-fluid bg-transparent m-0">
                         <div class="container text-center">
-                                <img class="principal-img" :src="primaryImg" alt="">
+                            <reload v-if="showButton && !$store.state.loading" class="mb-3"/>
+                            <img v-else class="principal-img" :src="primaryImg" alt="">
                         </div>
                         <div class="container text-center">                            
                             <i class="fa-solid fa-chevron-left" @click="nextImageLeft(image)" v-if="showLeft"></i>
@@ -26,22 +27,30 @@
 </template>
 
 <script>
+import reload from '../components/reload.vue';
+
 export default {
     data(){
         return{
             primaryImg: '',
             increment: 0,
             showLeft: true,
-            showRight: true
+            showRight: true,
+            showButton: false
         }
     },
     props: ['image'],
+    components: {reload},
     mounted(){
         setTimeout(() => {
             if(this.primaryImg == ''){
-                return this.primaryImg = this.image[0].image;
+                if(!this.image[0].image){
+                    this.showButton=true;
+                }else{
+                    this.primaryImg = this.image[0].image;
+                }
             }
-        }, 5000);
+        }, 4000);
     },
     methods: {
         changeImg(img){

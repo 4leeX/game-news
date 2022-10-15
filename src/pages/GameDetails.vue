@@ -4,7 +4,11 @@
       <div class="gradientTop"></div>
       <div class="infoContentLeft">
         <h2>{{ datails.name }}</h2>
-        <p>{{ newDesc }}</p>
+        <div class="spinContent" v-if="$store.state.loading">
+          <img src="img/load/spin.svg" alt="spin-gif">
+        </div>
+        <p v-else>{{ newDesc }}</p>
+        <reload-button v-if="showButton && !$store.state.loading" />
 
         <div class="ratingContainer">
           <span>Rating Graphic</span>
@@ -15,16 +19,22 @@
           <!-- </div> -->
         </div>
         
-      <div class="gradientBottomRight"></div>
+        <div class="gradientBottomRight"></div>
       </div>
       <div class="infoContentRight">
         <div class="imagesContainer">
-          <div class="imgContent" @click="handleOpenModal('#modalTransferenciaPedido')" v-if="screenShots!=0">
+          <div class="spinContentImg" v-if="$store.state.loading">
+            <img src="img/load/spin.svg" alt="spin-gif">
+          </div>
+          <div class="imgContent" @click="handleOpenModal('#modalTransferenciaPedido')" v-if="screenShots!=0 && !$store.state.loading">
             <img v-for="(img, i) in screenShots.slice(0, 4)" :key="i"
               :src="img.image" :alt="`${datails.name} image`">
           </div>
           <div class="infoContent">
-            <div class="infoText">
+            <div class="spinContentInfo" v-if="$store.state.loading">
+              <img src="img/load/spin.svg" alt="spin-gif">
+            </div>
+            <div class="infoText" v-else>
               <div class="infoLeft">
                 <div>
                   <p>Genre</p>
@@ -91,13 +101,14 @@ import gameSeries from '../api/gameSeries';
 import modal from '../components/modal.vue';
 import smallCard from '../components/SmallCard.vue';
 import modalRequirement from '../components/modalRequirement.vue';
+import reloadButton from '../components/reload.vue';
 // import rating from "../components/chart/rating";
-
 import moment from "moment";
 
 export default {
   data(){
     return{
+      showButton: false,
       screenShots: [],
       gameTrailer: [],
       gameSeries: [],
@@ -113,10 +124,7 @@ export default {
     }
   },
   components: {
-    modal,
-    // rating,
-    modalRequirement,
-    smallCard
+    modal, modalRequirement, smallCard, reloadButton
   },
   props: ['slug'],
   mounted() {
@@ -128,7 +136,7 @@ export default {
     setTimeout(() => {
       this.cleanTags();
       this.getGamesSeries();
-    }, 1600);
+    }, 1900);
   },
   methods:{
     handleOpenModal(modal){
@@ -148,7 +156,7 @@ export default {
           this.$store.commit("setError", true);
         })
         .finally(() => {
-          console.log(':)');
+          this.$store.commit("setLoading", false);
         }); 
     },
     getGamesSeries(){
@@ -168,7 +176,11 @@ export default {
     },
     cleanTags(){
       const htmlRegexG = /<(?:"[^"]*"['"]*|'[^']*'['"]*|[^'">])+>/g;
-      return this.newDesc = JSON.parse(JSON.stringify(this.datails.description)).replace(htmlRegexG, '');
+      if(this.datails.description!=undefined){
+        this.newDesc = JSON.parse(JSON.stringify(this.datails.description)).replace(htmlRegexG, '');
+      }else{
+        this.showButton=true;
+      }
     },
     setRatingCount(value){
       
@@ -201,6 +213,11 @@ export default {
       width: 50%;
       height: 100%;
       background: linear-gradient(to right, var(--primary-bkg) , #202124ab);
+
+      .spinContent{
+        margin-top: 50px;
+        text-align: center;
+      }
 
       h2{
         padding-top: 20px;
@@ -260,11 +277,31 @@ export default {
             height: 100px;
           }
         }
+
+        .spinContentImg{
+          text-align: center;
+          margin-top: 50px;
+
+          img{
+            width: 50px;
+            height: 50px;
+          }
+        }
       }
 
       .infoContent{
         float: right;
         width: 100%;
+
+        .spinContentInfo{
+          text-align: center;
+          margin-top: 50px;
+          
+          img{
+            width: 50px;
+            height: 50px;
+          }
+        }
 
         .infoText{
           color: #FFF;
