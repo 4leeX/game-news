@@ -7,7 +7,7 @@
             <img :src="g.background_image" :alt="g.name">
           </div>
           <div class="gameInfo" >
-            <router-link :to="{name:'details', params: {slug: g.slug}}">
+            <router-link :to="{name:'details', params: {slug: g.slug}}" @click="reloadPage">
               <h5>{{ g.name }}</h5>
             </router-link>
             <div class="gameInfoFirst">
@@ -53,7 +53,7 @@
             </div>
             <div class="moreDetailsContent">
               <div class="detailLink">
-                <router-link :to="{name:'details', params: {slug: g.slug}}">
+                <router-link :to="{name:'details', params: {slug: g.slug}}" @click="reloadPage">
                   <p>Check All Details</p>
                 </router-link>
                   <i class="fa-solid fa-circle-arrow-right"></i>
@@ -107,7 +107,10 @@ export default {
     },
     closeMoreGenres(){
       return this.showMoreGenres = false;
-    }
+    },
+    reloadPage(){
+      setTimeout(() =>location.reload(), 300);
+    },
   }
 }
 </script>

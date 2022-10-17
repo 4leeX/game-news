@@ -7,10 +7,10 @@
             </li>
         </ul>
     </div>
-    <div class="contentFilter" :style="{backgroundImage: `url(${imageGen})`}">
+    <div class="contentFilter" :style="{backgroundImage: `url(${imageGen=='' ? firstImage :  imageGen})`}">
         <div class="textContent">
             <div>
-                <h2>das</h2>
+                <h2>dasdas</h2>
             </div>
             <div v-for="(j, z) in games" :key="z">
                 <p>{{j.name}}</p>
@@ -27,6 +27,7 @@ export default {
     data(){
         return{
             activeGen: false,
+            firstImage: '',
             generos: [],
             imageGen: '',
             games: [],
@@ -34,6 +35,7 @@ export default {
     },
     mounted(){
         this.getGenres();
+        setTimeout(() => this.selectMountedImage(), 500);
     },
     methods: {
         getGenres(){
@@ -45,10 +47,13 @@ export default {
             let games = document.querySelectorAll("li");
             games.forEach(g => g.classList.remove("active"));
             e.target.classList.add("active");
-
+            
             this.activeGen=true;
             this.imageGen = value.image_background;
             this.games = value.games;
+        },
+        selectMountedImage(){
+            if(this.firstImage=='') this.firstImage=this.generos[0]['image_background'];
         }
     }
 }
@@ -84,6 +89,7 @@ section{
     .contentFilter{
         border-top: 1px solid var(--color-bkg);
         height: 500px;
+        border-radius: 4px 4px 40px 40px;
         background-position: 100%;
         background-repeat: no-repeat;
         background-size: cover;
