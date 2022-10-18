@@ -7,27 +7,34 @@
             </li>
         </ul>
     </div>
+    <div class="gradientTop"></div>
     <div class="contentFilter" :style="{backgroundImage: `url(${imageGen=='' ? firstImage :  imageGen})`}">
         <div class="textContent">
-            <div>
-                <h2>dasdas</h2>
+            <div class="titleContent">
+                <h2>{{genSelect!='' ? genSelect : ''}}</h2>
             </div>
-            <div v-for="(j, z) in games" :key="z">
-                <p>{{j.name}}</p>
+            <div class="gamesContent">
+                <div v-for="(j, z) in games" :key="z">
+                    <p @mouseenter="getGameDetail(j.slug)">{{j.name}}</p>
+                </div>
             </div>
         </div>
     </div>
+    <div class="gradientBottom"></div>
   </section>
 </template>
 
 <script>
 import gameGenres from '../api/gameGenres';
+import gameDetails from '../api/gameDetail';
 
 export default {
     data(){
         return{
             activeGen: false,
             firstImage: '',
+            gameDetail: [],
+            genSelect: '',
             generos: [],
             imageGen: '',
             games: [],
@@ -39,21 +46,41 @@ export default {
     },
     methods: {
         getGenres(){
-            gameGenres.then(data => {
-                this.generos = data.data.results;
-            });
+            gameGenres.then(({data}) => this.generos = data.results);
+        },
+        getGameDetail(slug){
+            gameDetails.show(slug)
+            .then(({data}) => this.gameDetail = data)
+            .catch(err => {
+                console.log(err);
+                this.$store.commit("setError", true);
+            })
+            .finally(() => {
+                this.$store.commit("setLoading", false);
+            }); 
         },
         selectGenGame(value, e){
             let games = document.querySelectorAll("li");
             games.forEach(g => g.classList.remove("active"));
             e.target.classList.add("active");
-            
+
             this.activeGen=true;
             this.imageGen = value.image_background;
+            this.genSelect = e.target.innerText;
             this.games = value.games;
         },
         selectMountedImage(){
             if(this.firstImage=='') this.firstImage=this.generos[0]['image_background'];
+        }
+    },
+    watch: {
+        gameDetail(nv, ov){
+            if(nv!=''){
+                let nImg=nv.background_image;
+                this.firstImage=nImg;
+            }
+            // console.log(nv, 'new');
+            // console.log(ov, 'old');
         }
     }
 }
@@ -86,6 +113,21 @@ section{
             }
         }
     }
+    .gradientTop{
+      width: calc(100% - 40px);
+      height: 50%;
+      position: absolute;
+      background: linear-gradient(to bottom, var(--primary-bkg) , #20212400);
+    }
+    .gradientBottom{
+      bottom: 0;
+      height: 80%;
+      width: calc(100% - 40px);
+      margin-bottom: 20px;
+      position: absolute;
+      border-radius: 0 0 30px 30px;
+      background: linear-gradient(to top, var(--primary-bkg) , #20212400);
+    }
     .contentFilter{
         border-top: 1px solid var(--color-bkg);
         height: 500px;
@@ -93,16 +135,41 @@ section{
         background-position: 100%;
         background-repeat: no-repeat;
         background-size: cover;
-        opacity: 0.5;
 
         .textContent{
-                
-            h2{
-                color: #FFF;
-                opacity: 1 !important;
+            position: relative;
+            z-index: 9999;
+            height: 100%;
+            padding: 15px;
+
+            .titleContent{
+                text-align: center;
+                h2{
+                    color: #FFF;
+                }
             }
-            p{
-                color: #FFF;
+        }
+        .gamesContent{
+            display: flex;
+            justify-content: space-evenly;
+            margin-top: 40px;
+            div{
+                padding: 10px;
+                p{
+                    padding: 2px 20px 2px 20px;
+                    border-radius: 50px;
+                    text-align: center;
+                    font-size: 1.3rem;
+                    background: var(--bkg-transp);
+                    cursor: pointer;                  
+                    transition: .6s;
+                    color: #FFF;
+                    &:hover{
+                        font-size: 1.4rem;
+                        padding: 3px 22px 3px 22px;
+                        border: 1px solid var(--bkg-transp-2);
+                    }
+                }
             }
         }
     }
