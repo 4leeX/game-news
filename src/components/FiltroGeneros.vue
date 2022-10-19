@@ -14,8 +14,25 @@
                 <h2>{{genSelect!='' ? genSelect : ''}}</h2>
             </div>
             <div class="gamesContent">
-                <div v-for="(j, z) in games" :key="z">
-                    <p @mouseenter="getGameDetail(j.slug)">{{j.name}}</p>
+                <div class="titleContent">
+                    <div v-for="(j, z) in games" :key="z">
+                        <p @mouseenter="getGameDetail(j.slug)">{{j.name}}</p>
+                    </div>
+                </div>
+                <div class="filteredGame" v-if="filterGame">
+                    <div class="imgGame">
+                        <img :src="gameDetail.background_image" alt="">
+                    </div>
+                    <div class="contentGameFilter">
+                        <div class="textContent">
+                            <div>
+                                <span v-for="(t,i) in (gameDetail.tags).slice(0,15)" :key="i">{{t.name}}</span>
+                            </div>
+                            <div class="imgIconPlatform">
+                                <img-icon-plataform v-for="(s,z) in gameDetail.stores" :key="z" :image="s.store.name" />
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -27,11 +44,12 @@
 <script>
 import gameGenres from '../api/gameGenres';
 import gameDetails from '../api/gameDetail';
+import ImgIconPlataform from './img-icon-plataform.vue';
 
 export default {
     data(){
         return{
-            activeGen: false,
+            filterGame: false,
             firstImage: '',
             gameDetail: [],
             genSelect: '',
@@ -40,6 +58,7 @@ export default {
             games: [],
         }
     },
+    components: {ImgIconPlataform},
     mounted(){
         this.getGenres();
         setTimeout(() => this.selectMountedImage(), 500);
@@ -65,6 +84,7 @@ export default {
             e.target.classList.add("active");
 
             this.activeGen=true;
+            this.filterGame=false;
             this.imageGen = value.image_background;
             this.genSelect = e.target.innerText;
             this.games = value.games;
@@ -77,7 +97,8 @@ export default {
         gameDetail(nv, ov){
             if(nv!=''){
                 let nImg=nv.background_image;
-                this.firstImage=nImg;
+                this.imageGen=nImg;
+                this.filterGame=true;
             }
             // console.log(nv, 'new');
             // console.log(ov, 'old');
@@ -143,31 +164,83 @@ section{
             padding: 15px;
 
             .titleContent{
+                justify-content: space-evenly;
                 text-align: center;
                 h2{
+                    border-bottom: 1px solid var(--bkg-transp-2);
+                    padding-bottom: 10px;
                     color: #FFF;
                 }
             }
         }
         .gamesContent{
-            display: flex;
+            /* display: flex; */
             justify-content: space-evenly;
             margin-top: 40px;
-            div{
-                padding: 10px;
-                p{
-                    padding: 2px 20px 2px 20px;
-                    border-radius: 50px;
-                    text-align: center;
-                    font-size: 1.3rem;
+
+            .titleContent{
+                display: flex;
+                flex-direction: row;
+                div{
+                    padding: 10px;
+                    p{
+                        padding: 2px 20px 2px 20px;
+                        border-radius: 50px;
+                        text-align: center;
+                        font-size: 1.3rem;
+                        background: var(--bkg-transp);
+                        cursor: pointer;                  
+                        transition: .6s;
+                        color: #FFF;
+                        &:hover{
+                            font-size: 1.4rem;
+                            padding: 3px 22px 3px 22px;
+                            border: 1px solid var(--bkg-transp-2);
+                        }
+                    }
+                }
+            }
+            .filteredGame{
+                margin-top: 30px;
+                display: flex;
+
+                .imgGame{
+                    padding-right: 20px;
+                    img{
+                        width: 200px;
+                        height: 200px;
+                        border-radius: 100%;
+                        box-shadow: var(--color-bkg) 0px 5px 15px 0px;
+                    }
+                }
+                .contentGameFilter{
+                    width: 100%;
+                    height: 200px;
                     background: var(--bkg-transp);
-                    cursor: pointer;                  
-                    transition: .6s;
-                    color: #FFF;
-                    &:hover{
-                        font-size: 1.4rem;
-                        padding: 3px 22px 3px 22px;
-                        border: 1px solid var(--bkg-transp-2);
+                    border-radius: 50px;
+                    flex-wrap: wrap;
+                    .textContent{
+                        flex-wrap: wrap;
+                        max-width: 100%;
+                        display: flex;
+                        div{
+                            padding: 10px;
+                            span{
+                                margin: 6px 0 0 6px;
+                                background: var(--color-bkg2);
+                                border-radius: 5px;
+                                padding: 2px 10px 2px 10px;
+                                color: #FFF;
+                                transition: .2s;
+                                &:hover{
+                                    background: var(--color-bkg);
+                                }
+                            }
+                        }
+                        .imgIconPlatform{
+                            display: flex;
+                            flex-direction: row;
+                        }
                     }
                 }
             }
