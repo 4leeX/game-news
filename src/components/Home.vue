@@ -26,14 +26,14 @@ export default {
     this.getGames();
   },
   methods: {
-    getGames(){
-        gamesSearch.then(data => {
-          this.games = data.data.results;
-        }).catch(err => {
-          console.log(err);
-        }).finally(() => {
-          this.$store.commit("setLoading", false);
-        });
+    async getGames(){
+      await gamesSearch
+      .then(({data}) => this.games = data.results)
+      .catch(err => {
+        console.log(err);
+      }).finally(() => {
+        this.$store.commit("setLoading", false);
+      });
     },
   }
 }
@@ -44,7 +44,7 @@ export default {
     background: var(--primary-bkg);
   }
   .homeContainer{
-    margin: 0 200px;
+    padding: 0 100px;
     /* margin-top: 20px; */
   }
   .loadingConteiner{
