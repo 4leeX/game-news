@@ -67,8 +67,8 @@ export default {
         getGenres(){
             gameGenres.then(({data}) => this.generos = data.results);
         },
-        getGameDetail(slug){
-            gameDetails.show(slug)
+        async getGameDetail(slug){
+            await gameDetails.show(slug)
             .then(({data}) => this.gameDetail = data)
             .catch(err => {
                 console.log(err);

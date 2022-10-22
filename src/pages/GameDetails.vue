@@ -140,16 +140,16 @@ export default {
   },
   methods:{
     handleOpenModal(modal){
-      $(modal).modal("show")
+      $(modal).modal("show");
     },
-    getGameDetail(){
-      gameDetail.show(this.$route.params.slug)
-        .then(data => {
-          this.datails = data.data;
-          this.info.platforms = data.data.platforms;
-          this.info.genres = data.data.genres;
-          this.info.tags = data.data.tags;
-          this.info.age = data.data.esrb_rating;
+    async getGameDetail(){
+      await gameDetail.show(this.$route.params.slug)
+        .then(({data}) => {
+          this.datails = data;
+          this.info.platforms = data.platforms;
+          this.info.genres = data.genres;
+          this.info.tags = data.tags;
+          this.info.age = data.esrb_rating;
         })
         .catch(err => {
           console.log(err);

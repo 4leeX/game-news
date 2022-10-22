@@ -4,19 +4,19 @@
       <div class="gamesContainer">
         <ul>
           <li><h3>Top</h3></li>
-          <li><p>Best of year</p></li>
-          <li><p>Popular in 2022</p></li>
-          <li><p>Top 250 All time</p></li>
+          <li><p @click="chooseGameCategory('best')">Best of year</p></li>
+          <li><p @click="chooseGameCategory('popular')">Popular in 2021</p></li>
+          <li><p @click="chooseGameCategory('top')">Top 250 All time</p></li>
           <li><h3>New</h3></li>
-          <li><p>Last 30 days</p></li>
-          <li><p>In week</p></li>
-          <li><p>Next week</p></li>
+          <li><p @click="chooseGameCategory('last')">Last 30 days</p></li>
+          <li><p @click="chooseGameCategory('week')">In week</p></li>
+          <li><p @click="chooseGameCategory('next')">Next week</p></li>
         </ul>
       </div>
     </div>
     <div class="conteiner">
-        <div class="cardContainer" v-for="(g, i) in game" :key="i" 
-          @mouseenter="showCardMedio = i" @mouseleave="showCardMedio = id">
+        <div class="cardContainer" v-for="g in game" :key="g.id"
+          @mouseenter="showCardMedio = g.id" @mouseleave="showCardMedio=null">
           <div class="imgConteiner">
             <img :src="g.background_image" :alt="g.name">
           </div>
@@ -27,7 +27,8 @@
             <div class="gameInfoFirst">
               <div class="metaContent">
                 <span :style="{'color':colorMeta, 'border':colorMeta + ' 1px solid'}">
-                  {{getMetaCritic(g.metacritic)}} {{g.metacritic || "??"}}
+                  {{g.metacritic || "??"}}
+                  <!-- {{getMetaCritic(g.metacritic)}} -->
                 </span>
                 <span>{{g.esrb_rating?.name || ''}}</span>
               </div>
@@ -36,14 +37,13 @@
               </div>
             </div>
           </div>
-          <div class="gameInfoMedio" v-if="showCardMedio === i">
-          <!-- <div class="gameInfoMedio"> -->
+          <div class="gameInfoMedio" v-if="showCardMedio === g.id && game.length!==0">
             <div class="dateContent">
               <p>Release date:</p><p>{{formatedReleaseDate(g.released)}}</p>
             </div>
             <div class="genresContent">
               <div class="moreGenres" v-if="showMoreGenres">
-                <div v-for="(gen, i) in g.genres" :key="i">
+                <div v-for="gen in g.genres" :key="gen.id">
                     <div class="textGen">
                       <p>{{gen.name || ''}}</p>
                     </div>
@@ -60,8 +60,8 @@
             <div class="plataformContent">
               <p>Plataforms:</p>
               <div class="plataformIcons">
-                <span v-for="(gen, i) in g.parent_platforms" :key="i">
-                  <icons-plataform :icons="gen.platform.name"></icons-plataform>
+                <span v-for="pa in g.parent_platforms" :key="pa.platform.id">
+                  <icons-plataform :icons="pa.platform.name"></icons-plataform>
                 </span>
               </div>
             </div>
@@ -85,24 +85,28 @@ import iconsPlataform from './icon-plataform.vue';
 import moment from "moment";
 
 export default {
-  components: { starRating, iconsPlataform },
   name: 'CardGame',
+  components: { starRating, iconsPlataform },
   data(){
     return{
       showCardMedio: null,
       colorMeta: '',
       showMoreGenres: false,
-
     }
   },
   props: {
     game: {
         type: Object,
         required: true
+    },
+    getGames: {
+      required: true
     }
   },
   created(){},
-  mounted() {},
+  mounted() {
+    this.colorMeta='green';
+  },
   methods: {
     getMetaCritic(value){
       if(value >= 70){
@@ -124,6 +128,16 @@ export default {
     },
     reloadPage(){
       setTimeout(() =>location.reload(), 300);
+    },
+    chooseGameCategory(value){
+      this.$store.commit("setLoading", true);
+      if(value=='best') this.$store.commit("toggleGameType", 'greatest?');
+      if(value=='popular') this.$store.commit("toggleGameType", 'greatest?year=2021&');
+      if(value=='top') this.$store.commit("toggleGameType", 'popular?');
+      if(value=='last') this.$store.commit("toggleGameType", 'recent-games-past?');
+      if(value=='week') this.$store.commit("toggleGameType", 'recent-games?');
+      if(value=='next') this.$store.commit("toggleGameType", 'recent-games-future?');
+      this.getGames();
     },
   }
 }

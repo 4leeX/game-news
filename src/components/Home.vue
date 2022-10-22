@@ -4,7 +4,15 @@
     <div class="loadingConteiner" v-if="$store.state.loading">
       <img src="img/load/pac.svg" alt="pacman">
     </div>
-    <CardGame :game="games" v-else/> 
+    <CardGame :game="games" :getGames="this.getGames" v-else/>
+    <footer>
+      <h2>lalalala</h2>
+      <h2>lalalala</h2>
+      <h2>lalalala</h2>
+      <h2>lalalala</h2>
+      <h2>lalalala</h2>
+      <h2>lalalala</h2>
+    </footer> 
   </section>
 </template>
 
@@ -28,6 +36,7 @@ export default {
   methods: {
     async getGames(){
       await gamesSearch
+      .show(this.$store.state.typeGame)
       .then(({data}) => this.games = data.results)
       .catch(err => {
         console.log(err);

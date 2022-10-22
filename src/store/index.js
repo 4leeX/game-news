@@ -8,7 +8,8 @@ export default createStore({
             filter: false
         },
         error: false,
-        loading: true
+        loading: true,
+        typeGame: 'recent-games?'
     },
     mutations: {
         toggleModalRequeriment(state, value){
@@ -22,6 +23,9 @@ export default createStore({
         },
         setLoading(state, value){
             state.loading = value;
-        }
+        },
+        toggleGameType(state, value){
+            state.typeGame = value;
+        },
     },
 })
