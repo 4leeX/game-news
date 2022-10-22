@@ -218,6 +218,7 @@ section{
           text-decoration: none;
   
           h5{
+            max-width: 300px;
             font-size: 18px;
             color: #FFF;
             transition: .6s;
