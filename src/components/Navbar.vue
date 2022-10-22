@@ -61,10 +61,10 @@ export default {
       window.removeEventListener('scroll', this.handleScroll);
     },
     methods: {
-      loadSearch(){
-        gameSearch.show(this.search).then(data => {
+      async loadSearch(){
+        await gameSearch.show(this.search).then(({data}) => {
           this.$store.commit("toggleModalFilter", false);
-          this.gameSearch = data.data.results;
+          this.gameSearch = data.results;
           this.openSearch=true;
           
         }).finally(() => {

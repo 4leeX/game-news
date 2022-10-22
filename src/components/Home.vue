@@ -9,9 +9,6 @@
       <h2>lalalala</h2>
       <h2>lalalala</h2>
       <h2>lalalala</h2>
-      <h2>lalalala</h2>
-      <h2>lalalala</h2>
-      <h2>lalalala</h2>
     </footer> 
   </section>
 </template>

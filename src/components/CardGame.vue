@@ -77,6 +77,9 @@
         </div>
     </div>
   </section>
+  <div class="loadMoreGames">
+    <button>Load More</button>
+  </div>
 </template>
 
 <script>
@@ -360,6 +363,20 @@ section{
         transform: scale(1.2);
         z-index: 2;
       }
+    }
+  }
+}
+.loadMoreGames{
+  text-align: center;
+  margin-top: 40px;
+  button{
+    padding: 1rem 3rem 1rem 3rem;
+    border-radius: 40px;
+    font-weight: 600;
+    border: none;
+    transition: .6s;
+    &:hover{
+      background: var(--color-link);
     }
   }
 }
